@@ -1,14 +1,11 @@
 package it.univaq.colonnine_elettriche.di
 
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import it.univaq.progettofinale.BuildConfig
-import it.univaq.colonnine_elettriche.data.remote.RetrofitRemoteRepository
+import it.univaq.colonnine_elettriche.BuildConfig
 import it.univaq.colonnine_elettriche.data.remote.service.EndPointService
-import it.univaq.colonnine_elettriche.domain.repositories.RemoteRepository
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import javax.inject.Singleton
@@ -52,10 +49,3 @@ object RemoteModule {
         client.create(EndPointService::class.java)
 }
 
-@Module
-@InstallIn(SingletonComponent::class)
-abstract class RemoteRepositoryModule {
-    @Binds
-    @Singleton
-    abstract fun bindRemoteRepository(remoteRepository: RetrofitRemoteRepository): RemoteRepository
-}

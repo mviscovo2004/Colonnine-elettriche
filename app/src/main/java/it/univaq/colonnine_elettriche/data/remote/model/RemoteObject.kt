@@ -1,16 +1,5 @@
 package it.univaq.colonnine_elettriche.data.remote.model
 
-data class RemoteUser(
-        val id: Int,
-        val name: String,
-        val username: String,
-        val email: String,
-        val address: RemoteAddress,
-        val phone: String,
-        val website: String,
-        val company: RemoteCompany
-)
-
 data class RemoteAddress(
         val street: String,
         val suite: String,

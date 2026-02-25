@@ -9,11 +9,11 @@ plugins {
 }
 
 android {
-    namespace = "it.univaq.progettofinale"
+    namespace = "it.univaq.colonnine_elettriche"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "it.univaq.progettofinale"
+        applicationId = "it.univaq.colonnine_elettriche"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
@@ -35,7 +35,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    // Sostituito kotlinOptions deprecato con compilerOptions
     kotlin {
         compilerOptions {
             jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
@@ -47,7 +46,6 @@ android {
     }
 }
 
-// Configurazione per far leggere le chiavi da secrets.properties
 secrets {
     propertiesFileName = "secrets.properties"
     defaultPropertiesFileName = "secrets.properties"
@@ -72,9 +70,9 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
     //Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.11.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.okhttp.logging)
 
     //Hilt
     implementation(libs.hilt.android)
@@ -82,17 +80,17 @@ dependencies {
     ksp(libs.hilt.compiler)
 
     //Room
-    implementation("androidx.room:room-runtime:2.6.1")
-    ksp("androidx.room:room-compiler:2.6.1")
-    implementation("androidx.room:room-ktx:2.6.1")
+    implementation(libs.room.runtime)
+    ksp(libs.room.compiler)
+    implementation(libs.room.ktx)
 
     //Navigation
     implementation(libs.androidx.navigation.compose)
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
+    implementation(libs.kotlinx.serialization.json)
 
     //Google maps
-    implementation("com.google.android.gms:play-services-location:21.0.1")
+    implementation(libs.play.services.location)
     implementation(libs.maps.compose)
-    implementation("com.google.android.gms:play-services-maps:18.2.0")
-    implementation("com.google.accompanist:accompanist-permissions:0.36.0")
+    implementation(libs.play.services.maps)
+    implementation(libs.accompanist.permissions)
 }

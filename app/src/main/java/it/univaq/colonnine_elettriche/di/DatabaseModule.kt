@@ -2,15 +2,12 @@ package it.univaq.colonnine_elettriche.di
 
 import android.content.Context
 import androidx.room.Room
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import it.univaq.colonnine_elettriche.data.local.AppDatabase
-import it.univaq.colonnine_elettriche.data.local.RoomLocalRepository
-import it.univaq.colonnine_elettriche.domain.repositories.LocalRepository
 import javax.inject.Singleton
 
 @Module
@@ -29,10 +26,3 @@ object DatabaseModule {
     fun provideStationDao(db: AppDatabase) = db.stationDao()
 }
 
-@Module
-@InstallIn(SingletonComponent::class)
-abstract class DatabaseRepositoryModule {
-    @Binds
-    @Singleton
-    abstract fun bindLocalRepository(roomLocalRepository: RoomLocalRepository): LocalRepository
-}

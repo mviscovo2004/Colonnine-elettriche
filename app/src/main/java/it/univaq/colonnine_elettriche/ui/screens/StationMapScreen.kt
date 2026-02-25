@@ -1,6 +1,6 @@
 package it.univaq.colonnine_elettriche.ui.screens
 
-import android.annotation.SuppressLint
+import android.Manifest
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -11,17 +11,24 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
 import it.univaq.colonnine_elettriche.ui.viewModel.StationUiState
 import it.univaq.colonnine_elettriche.ui.viewModel.StationViewModel
 
-@SuppressLint("MissingPermission")
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun StationMapScreen(viewModel: StationViewModel, onStationClick: (Long) -> Unit) {
     val uiState by viewModel.uiState.collectAsState()
     
+    val locationPermissionState = rememberPermissionState(
+        Manifest.permission.ACCESS_FINE_LOCATION
+    )
+
     val defaultPos = LatLng(41.8719, 12.5674)
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(defaultPos, 6f)
@@ -36,9 +43,9 @@ fun StationMapScreen(viewModel: StationViewModel, onStationClick: (Long) -> Unit
                 GoogleMap(
                     modifier = Modifier.fillMaxSize(),
                     cameraPositionState = cameraPositionState,
-                    properties = MapProperties(isMyLocationEnabled = true),
+                    properties = MapProperties(isMyLocationEnabled = locationPermissionState.status.isGranted),
                     uiSettings = MapUiSettings(
-                        myLocationButtonEnabled = true,
+                        myLocationButtonEnabled = locationPermissionState.status.isGranted,
                         zoomControlsEnabled = true
                     )
                 ) {

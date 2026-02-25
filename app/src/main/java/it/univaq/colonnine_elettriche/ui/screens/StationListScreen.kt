@@ -28,7 +28,10 @@ fun StationListScreen(
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             }
             is StationUiState.Success -> {
-                LazyColumn(modifier = Modifier.fillMaxSize()) {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(8.dp) // Aggiunto padding
+                ) {
                     items(state.stations) { station ->
                         StationItem(station = station, onClick = { onStationClick(station.id) })
                     }
@@ -45,17 +48,19 @@ fun StationListScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StationItem(station: Station, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
+            .padding(vertical = 4.dp) // Aggiunto padding verticale
             .clickable(onClick = onClick),
-        elevation = CardDefaults.cardElevation(4.dp)
+        elevation = CardDefaults.cardElevation(2.dp) // Riduci l'elevazione
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(text = station.title, style = MaterialTheme.typography.titleLarge)
+            Spacer(modifier = Modifier.height(4.dp)) // Riduci lo spazio
             Text(text = station.address, style = MaterialTheme.typography.bodyMedium)
         }
     }

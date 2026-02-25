@@ -1,4 +1,4 @@
-package it.univaq.progettofinale
+package it.univaq.colonnine_elettriche
 
 import android.Manifest
 import android.os.Bundle
