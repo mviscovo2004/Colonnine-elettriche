@@ -4,18 +4,18 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
     alias(libs.plugins.serialization)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.secrets)
 }
 
 android {
     namespace = "it.univaq.progettofinale"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "it.univaq.progettofinale"
         minSdk = 24
-        targetSdk = 36
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -35,12 +35,22 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = "11"
+    // Sostituito kotlinOptions deprecato con compilerOptions
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
+        }
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
+}
+
+// Configurazione per far leggere le chiavi da secrets.properties
+secrets {
+    propertiesFileName = "secrets.properties"
+    defaultPropertiesFileName = "secrets.properties"
 }
 
 dependencies {
@@ -52,6 +62,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+    
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -61,21 +72,27 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
     //Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
     //Hilt
-    implementation("com.google.dagger:hilt-android:2.51.1")
-    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
-    ksp("com.google.dagger:hilt-compiler:2.51.1")
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation.compose)
+    ksp(libs.hilt.compiler)
 
     //Room
     implementation("androidx.room:room-runtime:2.6.1")
     ksp("androidx.room:room-compiler:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
 
-    //Nav3
-    implementation("androidx.navigation3:navigation3-runtime:1.0.0")
-    implementation("androidx.navigation3:navigation3-ui:1.0.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+    //Navigation
+    implementation(libs.androidx.navigation.compose)
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
+
+    //Google maps
+    implementation("com.google.android.gms:play-services-location:21.0.1")
+    implementation(libs.maps.compose)
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
+    implementation("com.google.accompanist:accompanist-permissions:0.36.0")
 }

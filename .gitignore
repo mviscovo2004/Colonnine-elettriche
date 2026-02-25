@@ -1,15 +1,25 @@
+# Gradle e Build
+.gradle/
+build/
+app/build/
+*.log
+
+# IDE - IntelliJ / Android Studio
+.idea/
 *.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+*.ipr
+*.iws
+
+# IDE - VS Code
+.vscode/
+
+# Kotlin
+.kotlin/
+
+# File locali e segreti (MOLTO IMPORTANTE)
 local.properties
+secrets.properties
+
+# OS specific
+.DS_Store
+Thumbs.db
