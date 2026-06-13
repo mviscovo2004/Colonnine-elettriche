@@ -8,6 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import it.univaq.colonnine_elettriche.data.local.AppDatabase
+import it.univaq.colonnine_elettriche.data.local.dao.StationDao
 import javax.inject.Singleton
 
 @Module
@@ -16,13 +17,12 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideDatabase(@ApplicationContext context: Context) =
+    fun provideDatabase(@ApplicationContext context: Context): AppDatabase =
             Room.databaseBuilder(context, AppDatabase::class.java, "app_database")
                 .fallbackToDestructiveMigration()
                 .build()
 
     @Provides 
     @Singleton 
-    fun provideStationDao(db: AppDatabase) = db.stationDao()
+    fun provideStationDao(db: AppDatabase): StationDao = db.stationDao()
 }
-

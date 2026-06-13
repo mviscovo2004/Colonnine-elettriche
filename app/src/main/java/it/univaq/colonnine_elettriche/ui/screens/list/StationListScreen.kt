@@ -1,4 +1,4 @@
-package it.univaq.colonnine_elettriche.ui.screens
+package it.univaq.colonnine_elettriche.ui.screens.list
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -30,7 +30,7 @@ fun StationListScreen(
             is StationUiState.Success -> {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(8.dp) // Aggiunto padding
+                    contentPadding = PaddingValues(8.dp)
                 ) {
                     items(state.stations) { station ->
                         StationItem(station = station, onClick = { onStationClick(station.id) })
@@ -48,19 +48,18 @@ fun StationListScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StationItem(station: Station, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 4.dp) // Aggiunto padding verticale
+            .padding(vertical = 4.dp)
             .clickable(onClick = onClick),
-        elevation = CardDefaults.cardElevation(2.dp) // Riduci l'elevazione
+        elevation = CardDefaults.cardElevation(2.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(text = station.title, style = MaterialTheme.typography.titleLarge)
-            Spacer(modifier = Modifier.height(4.dp)) // Riduci lo spazio
+            Spacer(modifier = Modifier.height(4.dp))
             Text(text = station.address, style = MaterialTheme.typography.bodyMedium)
         }
     }

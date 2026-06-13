@@ -9,7 +9,7 @@ interface EndPointService {
     suspend fun stations(
         @Query("output") output: String = "json",
         @Query("countrycode") countryCode: String = "IT",
-        @Query("maxresults") maxResults: Int = 1000,
+        @Query("maxresults") maxResults: Int = 100,
         @Query("compact") compact: Boolean = true,
         @Query("verbose") verbose: Boolean = false
     ): List<RemoteStation>

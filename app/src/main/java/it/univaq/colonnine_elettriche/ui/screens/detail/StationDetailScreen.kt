@@ -1,4 +1,4 @@
-package it.univaq.colonnine_elettriche.ui.screens
+package it.univaq.colonnine_elettriche.ui.screens.detail
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -16,26 +16,26 @@ import it.univaq.colonnine_elettriche.ui.viewModel.StationUiState
 fun StationDetailScreen(stationId: Long, viewModel: StationViewModel) {
     val uiState by viewModel.uiState.collectAsState()
     
-    Scaffold(
-        topBar = {
-            TopAppBar(title = { Text("Dettaglio Colonnina") })
-        }
-    ) { padding ->
+    // Rimuoviamo Scaffold interno se lo screen è già dentro uno Scaffold in MainActivity
+    // In questo caso, MainActivity ha già uno Scaffold con TopAppBar e BottomBar.
+    // Ma StationDetailScreen viene navigato dentro il NavHost.
+    
+    Box(modifier = Modifier.fillMaxSize()) {
         when (val state = uiState) {
             is StationUiState.Loading -> {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator()
-                }
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             }
             is StationUiState.Error -> {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text("Errore: ${state.message}")
-                }
+                Text(
+                    text = "Errore: ${state.message}",
+                    modifier = Modifier.align(Alignment.Center).padding(16.dp),
+                    color = MaterialTheme.colorScheme.error
+                )
             }
             is StationUiState.Success -> {
                 val station = state.stations.find { it.id == stationId }
                 if (station != null) {
-                    Column(modifier = Modifier.padding(padding).padding(16.dp)) {
+                    Column(modifier = Modifier.padding(16.dp)) {
                         Text(text = station.title, style = MaterialTheme.typography.headlineSmall)
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(text = station.address, style = MaterialTheme.typography.bodyLarge)
@@ -45,9 +45,10 @@ fun StationDetailScreen(stationId: Long, viewModel: StationViewModel) {
                         Text(text = "Lng: ${station.lng}")
                     }
                 } else {
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        Text("Colonnina non trovata")
-                    }
+                    Text(
+                        text = "Colonnina non trovata",
+                        modifier = Modifier.align(Alignment.Center)
+                    )
                 }
             }
         }
